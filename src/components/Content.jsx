@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { sizeSetter } from "../utils/utils";
 import { Toaster, toast } from "sonner";
+import "../index.css"
 
 const Content = () => {
   const { id } = useParams();
@@ -65,10 +66,11 @@ const Content = () => {
         </button>
       </div>
       <Toaster richColors position="top-center" />
-      <div style={{ margin: "2% 8%" }}>
+      <div style={{ margin: "2% 8%"}}>
+      <div><button type="button" class="btn btn-link" onClick={()=>navigate(-1)}>Volver</button></div>
         <div className="row">
-          <div className="col-sm-6 mb-3 mb-sm-0">
-            <div className="card" style={{ width: "80%" }}>
+          <div className="col-sm-6 mb-3 mb-sm-0 contenedor-imagen-detallada">
+            <div className="card" style={{ width: "90%" }}>
               <div className="card-body">
                 <div
                   id="carouselExampleIndicators"
@@ -79,12 +81,15 @@ const Content = () => {
                     {product.urlImg?.map((img, i) => {
                       return (
                         <div className="carousel-item active" key={i}>
-                          <img src={img} className="d-block w-100" alt="..." />
+                          <img src={img} className="d-block w-100" alt="..." height={550}/>
                         </div>
                       );
                     })}
                   </div>
-                  <button
+                  {
+                   product.urlImg && product.urlImg.length > 1 ? (
+                      <>
+                      <button
                     className="carousel-control-prev"
                     type="button"
                     data-bs-target="#carouselExampleIndicators"
@@ -108,14 +113,20 @@ const Content = () => {
                     ></span>
                     <span className="visually-hidden">Siguiente</span>
                   </button>
+                      </>
+
+                    ) : ""
+                  }
                 </div>
               </div>
             </div>
           </div>
+
           <div className="col-sm-6">
             <div className="card" style={{ width: "100%" }}>
               <div className="card-body" style={{ lineHeight: "2.5" }}>
                 <h2 className="card-title" style={{ lineHeight: "inherit" }}>
+
                   {product.name}
                 </h2>
                 <h1 className="card-title" style={{ lineHeight: "inherit" }}>
