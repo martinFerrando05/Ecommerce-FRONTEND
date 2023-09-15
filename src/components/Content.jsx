@@ -8,6 +8,7 @@ import { Toaster, toast } from "sonner";
 const Content = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
+  const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
   const usuario = useSelector((state) => state.user.value);
 
@@ -18,17 +19,21 @@ const Content = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleAddToCart = () => {
-    axios
-      .post(`/api/cart/${product.id}`)
-
-      .then((res) => {
-        toast.success(res.data.message);
-      })
-      .catch(() => {
-        toast.error("No se registró un usuario logueado");
-        navigate("/login");
-      });
+  const handleAddToCart = (quantity) => {
+    if (quantity > product.stock) {
+      toast.error("No hay suficiente stock disponible.");
+    } else {
+      axios
+        .post(`/api/cart/${product.id}`, { quantity })
+        .then((res) => {
+          toast.success(res.data.message);
+          navigate("/");
+        })
+        .catch(() => {
+          toast.error("No se registró un usuario logueado");
+          navigate("/login");
+        });
+    }
   };
 
   const handleDeleteProduct = () => {
@@ -40,7 +45,6 @@ const Content = () => {
           navigate("/");
         }, 1500);
       })
-
       .catch((err) => {
         console.error(err);
         toast.error(
@@ -51,7 +55,15 @@ const Content = () => {
 
   return (
     <div>
-      <div style={{marginLeft:"8%"}}><button type="button" class="btn btn-link" onClick={()=>navigate(-1)}>Volver</button></div>
+      <div style={{ marginLeft: "8%" }}>
+        <button
+          type="button"
+          className="btn btn-link"
+          onClick={() => navigate(-1)}
+        >
+          Volver
+        </button>
+      </div>
       <Toaster richColors position="top-center" />
       <div style={{ margin: "2% 8%" }}>
         <div className="row">
@@ -100,22 +112,34 @@ const Content = () => {
               </div>
             </div>
           </div>
-          <div class="col-sm-6">
-            <div class="card" style={{ width: "100%" }}>
-              <div class="card-body" style={{ lineHeight: "2.5" }}>
-                <h2 class="card-title" style={{ lineHeight: "inherit" }}>
+          <div className="col-sm-6">
+            <div className="card" style={{ width: "100%" }}>
+              <div className="card-body" style={{ lineHeight: "2.5" }}>
+                <h2 className="card-title" style={{ lineHeight: "inherit" }}>
                   {product.name}
                 </h2>
-                <h1 class="card-title" style={{ lineHeight: "inherit" }}> {product.price}$</h1>
-                <h5 class="card-text" style={{ lineHeight: "1.8" }}>Equipo: {product.team}</h5>
-                <h5 class="card-text" style={{ lineHeight: "1.8" }}>País: {product.country}</h5>
-                <h5 class="card-text" style={{ lineHeight: "1.8" }}>Año: {product.year}</h5>
-
-                <h5 class="card-text" style={{ lineHeight: "1.8" }}> 
+                <h1 className="card-title" style={{ lineHeight: "inherit" }}>
+                  {" "}
+                  {product.price}$
+                </h1>
+                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
+                  Equipo: {product.team}
+                </h5>
+                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
+                  País: {product.country}
+                </h5>
+                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
+                  Año: {product.year}
+                </h5>
+                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
                   Talle: {product.size && sizeSetter(product.size)}
                 </h5>
-                <h5 class="card-text" style={{ lineHeight: "1.8" }}>Stock disponible: {product.stock}</h5>
-                <h5 class="card-text" style={{ lineHeight: "1.8" }}>{product.description}</h5>
+                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
+                  Stock disponible: {product.stock}
+                </h5>
+                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
+                  {product.description}
+                </h5>
 
                 <div className="d-grid gap-2">
                   {usuario.isAdmin ? (
@@ -138,13 +162,26 @@ const Content = () => {
                   ) : (
                     ""
                   )}
+                  <h5 className="card-text" style={{ lineHeight: "1.8" }}>
+                    Cantidad:
+                  </h5>
+                  <input
+                    type="number"
+                    className="form-control"
+                    placeholder="Cantidad"
+                    value={quantity}
+                    style={{ maxWidth: "10%" }}
+                    onChange={(e) => setQuantity(parseInt(e.target.value))}
+                    min="1"
+                    max={product.stock}
+                  />
                   <button
                     className="btn btn-primary"
                     type="button"
                     onClick={() => {
-                      handleAddToCart();
+                      handleAddToCart(quantity);
                     }}
-                    disabled={product.stock === "0"}
+                    disabled={product.stock === 0 || quantity > product.stock}
                   >
                     Agregar al carrito
                   </button>
