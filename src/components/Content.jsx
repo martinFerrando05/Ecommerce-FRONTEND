@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { sizeSetter } from "../utils/utils";
 import { Toaster, toast } from "sonner";
-import "../index.css"
+import "../index.css";
 
 const Content = () => {
   const { id } = useParams();
@@ -13,10 +13,17 @@ const Content = () => {
   const navigate = useNavigate();
   const usuario = useSelector((state) => state.user.value);
 
+  const [amount, setAmount] = useState(1);
+  const [activeImg, setActiveImage] = useState([]);
+
   useEffect(() => {
     axios
       .get(`/api/products/${id}`)
-      .then((response) => setProduct(response.data))
+      .then((response) => {
+        setProduct(response.data);
+        setActiveImage(response.data.urlImg[0]);
+      })
+
       .catch((err) => console.error(err));
   }, []);
 
@@ -55,154 +62,107 @@ const Content = () => {
   };
 
   return (
-    <div>
-      <div style={{ marginLeft: "8%" }}>
-        <button
-          type="button"
-          className="btn btn-link"
-          onClick={() => navigate(-1)}
-        >
-          Volver
-        </button>
-      </div>
-      <Toaster richColors position="top-center" />
-      <div style={{ margin: "2% 8%"}}>
-      <div><button type="button" class="btn btn-link" onClick={()=>navigate(-1)}>Volver</button></div>
-        <div className="row">
-          <div className="col-sm-6 mb-3 mb-sm-0 contenedor-imagen-detallada">
-            <div className="card" style={{ width: "90%" }}>
-              <div className="card-body">
-                <div
-                  id="carouselExampleIndicators"
-                  className="carousel carousel-dark slide"
-                >
-                  <div className="carousel-inners"></div>
-                  <div className="carousel-inner">
-                    {product.urlImg?.map((img, i) => {
-                      return (
-                        <div className="carousel-item active" key={i}>
-                          <img src={img} className="d-block w-100" alt="..." height={550}/>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {
-                   product.urlImg && product.urlImg.length > 1 ? (
-                      <>
-                      <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      className="carousel-control-prev-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Anterior</span>
-                  </button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      className="carousel-control-next-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Siguiente</span>
-                  </button>
-                      </>
-
-                    ) : ""
-                  }
-                </div>
-              </div>
+    <>
+      <div className="w-[60%] m-auto mt-10 pt-11">
+        <Toaster richColors position="top-center" />
+        <div className="flex flex-col justify-between lg:flex-row gap-16 ">
+          <div className="flex flex-col gap-6 lg:w-2/4">
+            <img
+              src={activeImg}
+              alt=""
+              className="w-full h-full aspect-square object-cover"
+            />
+            <div className="flex flex-row h-24">
+              {product.urlImg &&
+                product.urlImg.map((img, i) => {
+                  return (
+                    <img
+                      src={img}
+                      key={i}
+                      alt=""
+                      className="w-24 h-24 mr-4 rounded-md cursor-pointer"
+                      onClick={() => setActiveImage(img)}
+                    />
+                  );
+                })}
             </div>
           </div>
-
-          <div className="col-sm-6">
-            <div className="card" style={{ width: "100%" }}>
-              <div className="card-body" style={{ lineHeight: "2.5" }}>
-                <h2 className="card-title" style={{ lineHeight: "inherit" }}>
-
-                  {product.name}
-                </h2>
-                <h1 className="card-title" style={{ lineHeight: "inherit" }}>
-                  {" "}
-                  {product.price}$
-                </h1>
-                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                  Equipo: {product.team}
-                </h5>
-                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                  País: {product.country}
-                </h5>
-                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                  Año: {product.year}
-                </h5>
-                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                  Talle: {product.size && sizeSetter(product.size)}
-                </h5>
-                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                  Stock disponible: {product.stock}
-                </h5>
-                <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                  {product.description}
-                </h5>
-
-                <div className="d-grid gap-2">
-                  {usuario.isAdmin ? (
-                    <div className="container-buttons">
-                      <button
-                        className="btn btn-danger"
-                        type="button"
-                        onClick={handleDeleteProduct}
-                      >
-                        Eliminar Producto
-                      </button>
-                      <button
-                        className="btn btn-warning"
-                        type="button"
-                        onClick={() => navigate(`/edit-product/${id}`)}
-                      >
-                        Editar Producto
-                      </button>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <h5 className="card-text" style={{ lineHeight: "1.8" }}>
-                    Cantidad:
-                  </h5>
-                  <input
-                    type="number"
-                    className="form-control"
-                    placeholder="Cantidad"
-                    value={quantity}
-                    style={{ maxWidth: "10%" }}
-                    onChange={(e) => setQuantity(parseInt(e.target.value))}
-                    min="1"
-                    max={product.stock}
-                  />
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={() => {
-                      handleAddToCart(quantity);
-                    }}
-                    disabled={product.stock === 0 || quantity > product.stock}
-                  >
-                    Agregar al carrito
-                  </button>
-                </div>
-              </div>
+          {/* ABOUT */}
+          <div className="flex flex-col gap-4 lg:w-2/4">
+            <div>
+              <span className=" text-gray-200 font-semibold">Retro FC</span>
+              <h1 className="text-4xl text-white font-bold pt-3">
+                {product.name}
+              </h1>
             </div>
+            <p className=" text-slate-300 text-lg pt-3">
+              {product.description}
+            </p>
+            <span className=" text-gray-200 font-semibold">
+              Disponible en talle {product.size && sizeSetter(product.size)}
+            </span>
+
+            <h6 className="text-3xl font-semibold text-white">
+              $ {product.price}
+            </h6>
+            <div className="flex flex-row items-center gap-12">
+              <div className="flex flex-row items-center">
+                <button
+                  className={`bg-gray-200 py-2 px-5 rounded-lg text-blue-500 text-3xl ${
+                    quantity <= 1 && "bg-gray-400 transition-all"
+                  }`}
+                  onClick={() => {
+                    setQuantity(parseInt(quantity - 1));
+                  }}
+                  disabled={quantity <= 1}
+                >
+                  -
+                </button>
+                <span className="py-4 px-6 text-xl rounded-lg">{quantity}</span>
+                <button
+                  className={`bg-gray-200 py-2 px-4 rounded-lg text-blue-500 text-3xl ${
+                    quantity >= product.stock && "bg-gray-400 transition-all"
+                  }`}
+                  onClick={() => {
+                    setQuantity(parseInt(quantity + 1));
+                  }}
+                  disabled={quantity >= product.stock}
+                >
+                  +
+                </button>
+              </div>
+              <button
+                className={`bg-blue-500 text-white font-semibold py-3 px-16 rounded-xl h-full ${
+                  quantity >= product.stock && "bg-blue-700 transition-all"
+                }`}
+                onClick={() => {
+                  handleAddToCart(quantity);
+                }}
+                disabled={quantity >= product.stock}
+              >
+                Añadir al carrito
+              </button>
+            </div>
+            {usuario.isAdmin && (
+              <div className="flex flex-col gap-3 w-[85%]">
+                <button
+                  className={`bg-amber-400 text-black font-semibold py-3 px-16 rounded-xl h-full`}
+                  onClick={() => navigate(`/edit-product/${id}`)}
+                >
+                  Editar Producto
+                </button>
+                <button
+                  className={`bg-red-600 text-white font-semibold py-3 px-16 rounded-xl h-full`}
+                  onClick={handleDeleteProduct}
+                >
+                  Eliminar Producto
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

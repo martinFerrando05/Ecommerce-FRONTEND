@@ -3,11 +3,10 @@ import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
 import Grid from "../commons/Grid";
 
-
 const SearchResults = () => {
   const searchName = useLocation().search;
   const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -22,23 +21,24 @@ const SearchResults = () => {
 
   return (
     <>
-    <div>
+      <div>
         <button type="button" class="btn btn-link" onClick={() => navigate(-1)}>
           Volver
         </button>
       </div>
-    <div className="contenedor-grid" style={{ margin: "0 8%" }}>
-      {searchResults.length === 0 ? (
-        <h1>La búsqueda no arrojó ningún resultado</h1>
-      ) : (
-        <>
-          <h1>Resultados de la búsqueda</h1>
-          <Grid items={searchResults} />
-        </>
-      )}
-    </div>
+      <div style={{ margin: "0 8%" }}>
+        {searchResults.length === 0 ? (
+          <h1 className="text-center">
+            La búsqueda no arrojó ningún resultado
+          </h1>
+        ) : (
+          <>
+            <h1 className="text-center text-4xl font-bold text-slate-50">Resultados de la búsqueda</h1>
+            <Grid items={searchResults} />
+          </>
+        )}
+      </div>
     </>
-
   );
 };
 

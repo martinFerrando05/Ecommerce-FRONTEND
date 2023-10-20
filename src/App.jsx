@@ -56,17 +56,13 @@ function App() {
             path="/"
             element={
               <>
-                <div style={{ backgroundColor: "black" }}>
-                  <div className="container">
-                    <Carousel />
-                  </div>
-                </div>
+                <Carousel />
                 <Grid
                   items={products}
                   title={
                     isSearchResultsPage
                       ? "Resultados de la búsqueda"
-                      : "Todos nuestros productos"
+                      : "¡TODOS NUESTROS PRODUCTOS!"
                   }
                 />
               </>

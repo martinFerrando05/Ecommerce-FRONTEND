@@ -3,21 +3,9 @@ import Card from "./Card";
 
 const Grid = ({ items, title }) => {
   return (
-    <div className="contenedor-grid" style={{ margin: "0 8%" }}>
-      <h1 className="titles">{title}</h1>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          gap: 20,
-          padding: "40px",
-          border: "3px inset black",
-          marginTop: "40px",
-          borderRadius: "20px",
-        }}
-      >
+    <div className="mt-20 item w-full flex flex-col items-center">
+      <h1 className="text-center text-4xl font-bold text-slate-50">{title}</h1>
+      <div className="flex flex-row flex-wrap justify-center gap-28 p-10 mt-10 ">
         {items.map((item, i) => {
           return <Card item={item} key={i} />;
         })}

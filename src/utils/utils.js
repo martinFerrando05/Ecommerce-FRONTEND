@@ -15,7 +15,7 @@ export const sizeSetter = (sizes) => {
 export const dateSetter = (date) => {
   const dayAndTime = date.split("T");
   const [ year, month, day ] = dayAndTime[0].split("-");
-  return `${day}-${month}-${year}`;
+  return `${day}/${month}/${year}`;
 };
 
 export const containsNumbers = (str) =>{

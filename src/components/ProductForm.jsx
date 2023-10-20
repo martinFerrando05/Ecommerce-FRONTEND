@@ -39,8 +39,6 @@ const ProductForm = () => {
     axios.get("/api/categories").then((res) => setCategories(res.data));
   }, [path, id]);
 
-  console.log(categories);
-
   const sizesArray = (value) => {
     const sizes = value.split(",");
     const sizesToUppercase = sizes.map((el) => el.toUpperCase().trim());
@@ -75,8 +73,6 @@ const ProductForm = () => {
       }));
     }
   };
-
-  console.log(productInfo);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -122,8 +118,8 @@ const ProductForm = () => {
         <div className="contenedor-crear-producto">
           <form onSubmit={handleSubmit}>
             {Object.keys(initialProductInfo).map((key, i) => (
-              <div key={i}>
-                <label htmlFor={key} className="form-label mt-2">
+              <div key={i} className="py-4">
+                <label htmlFor={key} className="text-lg text-slate-200">
                   {key === "size"
                     ? "Talles:"
                     : key === "urlImg"
@@ -149,14 +145,14 @@ const ProductForm = () => {
 
                 {key === "urlImg" ? (
                   <textarea
-                    name={key}
-                    className="form-control mb-3"
-                    placeholder="http://urlimagen/img.jpg,http://urlimagen/img2.jpg"
                     id={key}
                     cols="30"
                     rows="5"
+                    name={key}
                     onChange={handleInputChange}
                     value={productInfo[key]}
+                    class="block p-2.5 w-full text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2"
+                    placeholder="http://urlimagen/img.jpg,http://urlimagen/img2.jpg"
                     required
                   ></textarea>
                 ) : key === "categoryId" ? (
@@ -164,7 +160,8 @@ const ProductForm = () => {
                     <select
                       onChange={handleInputChange}
                       name={key}
-                      class="form-select"
+                      style={{borderRadius:"8px"}}
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       id="inputGroupSelect02"
                       required
                     >
@@ -173,9 +170,6 @@ const ProductForm = () => {
                         return <option value={el.id}>{el.type}</option>;
                       })}
                     </select>
-                    <label class="input-group-text" for="inputGroupSelect02">
-                      CATEGORIAS
-                    </label>
                   </div>
                 ) : (
                   <input
@@ -190,7 +184,10 @@ const ProductForm = () => {
                     }
                     id={key}
                     name={key}
-                    className="form-control mb-3"
+                    value={productInfo[key]}
+                    onChange={handleInputChange}
+                    required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder={`Ej: ${
                       key === "size"
                         ? "XS, S, M, L, XL"
@@ -212,17 +209,14 @@ const ProductForm = () => {
                         ? "2"
                         : ""
                     }`}
-                    value={productInfo[key]}
-                    onChange={handleInputChange}
-                    required
-                  />
+                  ></input>
                 )}
                 {key === "size" ? (
-                  <small>
+                  <small className="text-slate-200">
                     <strong>SEPARAR CADA TALLE CON COMAS</strong>
                   </small>
                 ) : key === "urlImg" ? (
-                  <small>
+                  <small className="text-slate-200">
                     <strong>SEPARAR CADA URL CON COMAS</strong>
                   </small>
                 ) : (
@@ -230,7 +224,7 @@ const ProductForm = () => {
                 )}
               </div>
             ))}
-            <button type="submit" className="btn btn-dark mb-5">
+            <button type="submit" className="btn btn-dark my-5 text-white">
               {path === "/edit-product"
                 ? "Actualizar Producto"
                 : "Agregar producto"}
