@@ -1,0 +1,17 @@
+@media (min-width: 540px) and (max-width: 600px) {
+  .smartphoneView {
+    height: 380px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 540px) {
+  .smartphoneView {
+    height: 320px;
+  }
+}
+
+@media (max-width: 400px) {
+  .smartphoneView {
+    height: 290px;
+  }
+}

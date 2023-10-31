@@ -1,0 +1,9 @@
+@media (max-width:450px){
+  .padding{
+    padding: 18px;
+  }
+  .margin{
+    margin-top: 0px;
+  }
+
+}

@@ -8,113 +8,65 @@ const Card = ({ item }) => {
 
   return (path === "/create-product" && item) ||
     (path === "/edit-product" && item.urlImg) ? (
-    <div
-      className="card"
-      style={{
-        width: "26rem",
-        borderRadius: "5px 5px 21px 21px",
-        height: "40rem",
-      }}
-    >
-      <img
-        src={
-          !item.urlImg[0]
-            ? "https://www.fruve.sectechfield.com//media/productImages/imagen-no-disponible.png"
-            : item.urlImg[0]
-        }
-        className="card-img-top"
-        alt="..."
-        width={350}
-        height={350}
-      />
-      <div
-        className="card-body mt-2"
-        style={{ border: "1px solid grey", borderRadius: 20 }}
-      >
-        <h5 className="card-title">
-          {item.name.length > 60 ? item.name.slice(0, 60) + "..." : item.name}
-        </h5>
-        <p className="card-text">
-          {item.description.length > 140
-            ? item.description.slice(0, 140) + "..."
-            : item.description}
-        </p>
-        <div
-          style={{
-            position: "absolute",
-            bottom: "20px",
-            width: "85%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <button
-            to={`/products/${item.id}`}
-            className="btn btn-primary"
-            type="submit"
-            disabled
-          >
-            Ver más
-          </button>
-          <span className="span">${item.price}</span>
+    <>
+      <section class="mx-auto w-fit h-fit border p-5 rounded-lg">
+        <div class="w-72 h-fit group">
+          <div class="relative overflow-hidden">
+            <img
+              class=" h-80 w-full object-cover"
+              src={
+                !item.urlImg[0]
+                  ? "https://www.fruve.sectechfield.com//media/productImages/imagen-no-disponible.png"
+                  : item.urlImg[0]
+              }
+              alt=""
+            />
+            <div class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <Link to={`/products/${item.id}`}>
+                <button class="bg-black text-white py-2 px-5" disabled>
+                  Ver mas
+                </button>
+              </Link>
+            </div>
+          </div>
+          <h2 class="mt-3 text-xl capitalize group-hover:underline cursor-pointer text-slate-100">
+            {item.name.length > 35 ? item.name.slice(0, 60) + "..." : item.name}
+          </h2>
+          <p class="text-xl mt-2 ml-1 inline-block">${item.price}</p>
         </div>
-      </div>
-    </div>
-  ) : item.urlImg ? (
-    <div
-      className="card"
-      style={{
-        width: "18rem",
-        borderRadius: "5px 5px 21px 21px",
-        height: "32rem",
-      }}
-    >
-      <img
-        src={
-          !item.urlImg[0]
-            ? "https://www.fruve.sectechfield.com//media/productImages/imagen-no-disponible.png"
-            : item.urlImg[0]
-        }
-        className="card-img-top"
-        alt="..."
-        width={250}
-        height={250}
-      />
-      <div
-        className="card-body mt-2"
-        style={{ border: "1px solid grey", borderRadius: 20 }}
-      >
-        <h5 className="card-title">
-          {item.name.length > 33 ? item.name.slice(0, 33) + "..." : item.name}
-        </h5>
-        <p className="card-text">
-          {item.description.length > 60
-            ? item.description.slice(0, 60) + "..."
-            : item.description}
-        </p>
-
-        <div
-          style={{
-            position: "absolute",
-            bottom: "20px",
-            width: "80%",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Link
-            to={`/products/${item.id}`}
-            className="btn btn-primary"
-            type="submit"
-          >
-            Ver más
-          </Link>
-          <span className="span">${item.price}</span>
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   ) : (
-    ""
+    <section class="mx-auto w-fit pt-5 pb-5">
+      <div class="w-72 h-fit group">
+        <div class="relative overflow-hidden">
+          <img
+            class=" h-80 w-full object-cover"
+            src={
+              !item.urlImg[0]
+                ? "https://www.fruve.sectechfield.com//media/productImages/imagen-no-disponible.png"
+                : item.urlImg[0]
+            }
+            alt=""
+          />
+          <div class="absolute h-full w-full bg-black/20 flex items-center justify-center -bottom-10 group-hover:bottom-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <Link to={`/products/${item.id}`}>
+              <button class="bg-black text-white py-2 px-5">Ver mas</button>
+            </Link>
+          </div>
+        </div>
+        <Link to={`/products/${item.id}`}>
+          <h2 class="mt-3 text-xl capitalize group-hover:underline cursor-pointer text-slate-100">
+            {item.name.length > 35 ? item.name.slice(0, 60) + "..." : item.name}
+          </h2>
+        </Link>
+        <del class="text-red-700 mt-2 text-xl">
+          ${item.price + (item.price % 15)}
+        </del>
+        <p class="text-xl mt-2 ml-1 inline-block"> | </p>
+        <p class="text-xl mt-2 ml-1 inline-block text-white"> ${item.price}</p>
+      </div>
+    </section>
   );
 };
 
