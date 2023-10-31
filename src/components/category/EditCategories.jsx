@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { onSubmitReload } from "../utils/utils";
+import { onSubmitReload } from "../../utils/utils";
 import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router";
 
@@ -55,7 +55,7 @@ const EditCategories = ({ categories }) => {
   return (
     <>
       <div
-        className="container flex flex-col justify-center items-center pt-10 "
+        className="container flex flex-col justify-center items-center pt-10 p-4"
         style={{ margin: "0 auto" }}
       >
         <Toaster richColors position="top-center" />
@@ -68,18 +68,18 @@ const EditCategories = ({ categories }) => {
 
         {/*  */}
 
-        <form className="gap-6 mt-8 w-4/6 mb-5">
+        <form className="gap-6 mt-8 sm:w-4/6 sm:p-0 mb-5 w-full p-2" >
           <label
             htmlFor="default-search"
             class="block mb-2 text-white  text-xl"
           >
-            Ingresar el nombre de la nueva categoria
+            Ingresar el nombre de la nueva categoria 
           </label>
           <div class="relative">
             <input
               type="search"
               id="default-search"
-              class="block text-lg w-full p-4 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="block text-sm sm:text-lg w-full p-4 text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Camisetas"
               onChange={(e) => setNewCategory(e.target.value)}
               required
@@ -87,17 +87,17 @@ const EditCategories = ({ categories }) => {
             <button
               type="submit"
               onClick={() => handleSubmit()}
-              class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg  text-sm sm:text-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Añadir Categoria
+              Añadir 
             </button>
           </div>
         </form>
 
-        <div class="w-4/6 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        <div class="sm:w-4/6 w-full  text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"  >
           {categories.map((category, i) => {
             return (
-              <div className="flex flex-row border-b border-gray-600 hover:bg-gray-600">
+              <div className="flex flex-row border-b border-gray-600 hover:bg-gray-600 items-center">
                 {editingCategoryIndex === i ? (
                   <div class="relative w-full m-1">
                     <input
@@ -116,7 +116,7 @@ const EditCategories = ({ categories }) => {
                           return alert("Debe agregar un nombre de categoría");
                         handleSaveClick(category);
                       }}
-                      class="text-black absolute right-2.5 bottom-2.5  bg-lime-600 focus:ring-4 focus:outline-none  font-medium rounded-lg text-lg px-4 py-2"
+                      class="text-black absolute right-2.5 bottom-3.5 sm:bottom-2.5 bg-lime-600 focus:ring-4 focus:outline-none  font-medium rounded-lg sm:text-base text-sm lg:text-lg px-4 py-2"
                     >
                       Guardar
                     </button>
@@ -126,12 +126,12 @@ const EditCategories = ({ categories }) => {
                     <a
                       href="#"
                       aria-current="true"
-                      class="block w-full text-lg pt-4 pb-4  px-4 py-2 border-gray-200 cursor-pointer hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600  dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white rounded-t-lg"
+                      class="block w-full lg:text-lg sm:text-base text-sm pt-4 pb-4  px-4 py-2 border-gray-200 cursor-pointer hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600  dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white rounded-t-lg"
                     >
                       {category.type}
                     </a>
 
-                    <div class="inline-flex overflow-hidden shadow-sm mx-4">
+                    <div class="inline-flex  shadow-sm mx-4">
                       <button
                         class="inline-block p-3 text-white focus:relative"
                         title="Edit Product"
@@ -174,7 +174,7 @@ const EditCategories = ({ categories }) => {
                         </svg>
                       </button>
                     </div>
-                    </>
+                  </>
                 )}
               </div>
             );

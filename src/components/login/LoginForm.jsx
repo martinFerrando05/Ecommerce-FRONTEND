@@ -2,13 +2,24 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
-import logoRFC from "../assets/[removal.ai]_d49ecfa2-f5d0-4920-a10a-02f5dd4e81fa-retro-football-club-logo-7ed5062e40c8b53c0fc2.png";
-import { onSubmitReload } from "../utils/utils";
+import logoRFC from "../../assets/[removal.ai]_d49ecfa2-f5d0-4920-a10a-02f5dd4e81fa-retro-football-club-logo-7ed5062e40c8b53c0fc2.png";
+import { onSubmitReload } from "../../utils/utils";
+import "./login.css";
+import { useDispatch, useSelector } from "react-redux";
+import { registeredUser } from "../../redux/registered";
 
-const LoginForm = ({ handleOpenLogin, setDisplayLogin }) => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const isRegistered = useSelector(
+    (store) => store.registered.value.isRegistered
+  );
+  const dispatch = useDispatch();
+  
+  const handleRegisteredDispatch = () =>{
+    dispatch(registeredUser(!isRegistered))
+  }
 
   const onChangeEmail = (event) => {
     setEmail(event.target.value);
@@ -25,7 +36,6 @@ const LoginForm = ({ handleOpenLogin, setDisplayLogin }) => {
         password: password,
       })
       .then(() => {
-        setDisplayLogin(false);
         onSubmitReload();
         navigate("/");
         toast.success("Bienvenido! Has iniciado sesión");
@@ -39,57 +49,8 @@ const LoginForm = ({ handleOpenLogin, setDisplayLogin }) => {
 
   return (
     <>
-      {/* <div className="retroForm">
-      <Toaster richColors position="top-center" />
-      <form onSubmit={handleLogin}>
-        <h2>Iniciar sesión</h2>
-        <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            onChange={onChangeEmail}
-            required
-          />
-          <div id="emailHelp" className="form-text">
-            No compartiremos tus datos con nadie
-          </div>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleInputPassword1" className="form-label">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            id="exampleInputPassword1"
-            onChange={onChangePassword}
-            required
-          />
-        </div>
-
-        <button type="submit" className="btn btn-primary">
-          Iniciar sesión
-        </button>
-      </form>
-      <br></br>
-      <p>No tienes una cuenta?</p>
-      <Link to={"/register"}>
-        <button type="submit" className="btn btn-primary">
-          Registrarse
-        </button>
-      </Link>
-    </div> */}
-
-      <div className="fixed backdrop-blur-sm h-screen w-full flex flex-col pb-64 justify-center items-center z-10">
-        <div
-          style={{ height: "390px" }}
-          class=" w-4/12 mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 "
-        >
+      <div className="fixed backdrop-blur-sm h-full w-full flex flex-col pb-64 justify-center items-center z-10">
+        <div class=" lg:w-4/12  mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800 ">
           <div class="px-6 py-4">
             <div class="flex justify-center mx-auto">
               <img class=" w-20 h-18" src={logoRFC} alt="" />
@@ -140,16 +101,16 @@ const LoginForm = ({ handleOpenLogin, setDisplayLogin }) => {
             <Link to={"/register"}>
               <p
                 class="mx-2 text-sm font-bold text-blue-500 dark:text-blue-400 hover:underline"
-                onClick={handleOpenLogin}
+                onClick={handleRegisteredDispatch}
               >
                 Registrarme
               </p>
             </Link>
           </div>
         </div>
-        <div class="flex items-center justify-center mt-4">
+        <div class="flex items-center justify-center z-10 mt-4 botonDisplay">
           <button
-            onClick={handleOpenLogin}
+            onClick={handleRegisteredDispatch}
             class="px-6 py-4 text-lg tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-700 font-bold rounded-full hover:bg-gray-800 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
           >
             X

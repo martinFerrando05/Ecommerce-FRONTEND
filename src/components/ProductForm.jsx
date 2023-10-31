@@ -113,9 +113,9 @@ const ProductForm = () => {
         </button>
       </div>
 
-      <div className="create-product-container">
+      <div className=" flex lg:flex-row lg:items-center flex-col-reverse lg:p-12 lg:justify-around " >
         <Toaster richColors position="top-center" />
-        <div className="contenedor-crear-producto">
+        <div className="contenedor-crear-producto p-4">
           <form onSubmit={handleSubmit}>
             {Object.keys(initialProductInfo).map((key, i) => (
               <div key={i} className="py-4">
@@ -224,16 +224,15 @@ const ProductForm = () => {
                 )}
               </div>
             ))}
-            <button type="submit" className="btn btn-dark my-5 text-white">
+            <button type="submit" className="btn btn-dark my-5 w-full lg:w-auto text-white">
               {path === "/edit-product"
                 ? "Actualizar Producto"
                 : "Agregar producto"}
             </button>
           </form>
         </div>
-        <div>
+       
           <Card item={productInfo} />
-        </div>
       </div>
     </>
   );

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import logoRFC from "../assets/Retro Football Club Logo.png";
+import logoRFC from "../../assets/Retro Football Club Logo.png";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { containsNumbers, containsLetters } from "../utils/utils";
+import { containsNumbers, containsLetters } from "../../utils/utils";
 import { Toaster, toast } from "sonner";
 
 const Checkout = () => {
@@ -35,7 +35,7 @@ const Checkout = () => {
     axios
       .put(`/api/cart/${cartId}`, {
         deliveryAddress,
-        deliveryStreets,
+        deliveryStreets, 
         deliveryZipCode,
         deliveryCity,
         reciever,
@@ -77,257 +77,9 @@ const Checkout = () => {
 
   return (
     <>
-      {/* <div className="contenedor">
-      <Toaster richColors position="top-center" />
-      <div className="text-center">
-        <img
-          className="mb-2 mt-5"
-          style={{ borderRadius: 300, maxHeight: "150px", maxWidth: "200px" }}
-          src={logo}
-          alt=""
-        />
-        <h2>Ya casi es tuyo!</h2>
-        <p>No compartiremos tu informacion de pago con nadie.</p>
-      </div>
-      <div className="container-for-pay">
-        <h4>Lugar de entrega: </h4>
-        <form
-          action=""
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleCheckout();
-          }}
-        >
-          <div>
-            <label htmlFor="adress" className="form-label">
-              Direccion de envio:
-            </label>
-            <input
-              id="address"
-              type="text"
-              className="form-control"
-              placeholder="Ej: Rawson 8833"
-              required
-              onChange={(e) => setDeliveryAddress(e.target.value)}
-              onBlur={(e) => {
-                if (e.target.value) {
-                  if (!containsNumbers(e.target.value)) {
-                    toast.error("La dirección no es válida");
-                    return (e.target.value = "");
-                  }
-                }
-              }}
-            />
-          </div>
-          <label htmlFor="streets" className="form-label mt-3">
-            Entre Calles:
-          </label>
-          <input
-            id="streets"
-            type="text"
-            className="form-control"
-            placeholder="Ej: Mariano Moreno y Avellaneda"
-            required
-            onChange={(e) => setDeliveryStreets(e.target.value)}
-          />
-          <label htmlFor="postal" className="form-label mt-3">
-            Codigo Postal:
-          </label>
-          <input
-            id="postal"
-            type="text"
-            className="form-control"
-            placeholder="Ej: 1718"
-            required
-            onChange={(e) => setDeliveryZipCode(e.target.value)}
-            onBlur={(e) => {
-              if (e.target.value) {
-                if (
-                  e.target.value.length !== 4 ||
-                  containsLetters(e.target.value)
-                ) {
-                  toast.error("El código postal no es válido");
-                  return (e.target.value = "");
-                }
-              }
-            }}
-          />
-          <label htmlFor="ciudad" className="form-label mt-3">
-            Ciudad:
-          </label>
-          <input
-            id="ciudad"
-            type="text"
-            className="form-control"
-            placeholder="Ej: Buenos Aires"
-            required
-            onChange={(e) => setDeliveryCity(e.target.value)}
-          />
-          <label htmlFor="received" className="form-label mt-3">
-            Nombre Completo de la persona que recibe el paquete:
-          </label>
-          <input
-            id="received"
-            type="text"
-            className="form-control"
-            placeholder="Ej: Luis Moreno Garcia"
-            required
-            onChange={(e) => setReciever(e.target.value)}
-            onBlur={(e) => {
-              if (e.target.value) {
-                if (containsNumbers(e.target.value)) {
-                  toast.error("El nombre no puede contener números");
-                  return (e.target.value = "");
-                }
-              }
-            }}
-          />
-          <hr />
-
-          <h4 className="mt-3 mb-3">Pago: </h4>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="mastercard"
-              onClick={(e) => setCardCompany(e.target.id)}
-            />
-            <label className="form-check-label" htmlFor="mastercard">
-              Mastercard
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="visa"
-              onClick={(e) => setCardCompany(e.target.id)}
-            />
-            <label className="form-check-label" htmlFor="visa">
-              Visa
-            </label>
-          </div>
-          <div className="form-check mb-3">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="maestro"
-              onClick={(e) => setCardCompany(e.target.id)}
-            />
-            <label className="form-check-label" htmlFor="maestro">
-              Maestro
-            </label>
-          </div>
-          <label htmlFor="credit-card" className="form-label">
-            Numero de tarjeta (Sin espacios):
-          </label>
-          <input
-            id="credit-card"
-            type="text"
-            className="form-control"
-            placeholder="Ej: 9999888877776666"
-            required
-            onChange={(e) => setCardNumber(e.target.value)}
-            onBlur={(e) => {
-              if (e.target.value) {
-                if (
-                  e.target.value.length !== 16 ||
-                  containsLetters(e.target.value)
-                ) {
-                  toast.error("El n° de tarjeta no es válido");
-                  return (e.target.value = "");
-                }
-              }
-            }}
-          />
-
-          <div className="col-md-3">
-            <label htmlFor="inputZip" className="form-label">
-              Codigo de seguridad
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="inputZip"
-              placeholder="3 dígitos"
-              required
-              onChange={(e) => setCardCode(e.target.value)}
-              onBlur={(e) => {
-                if (e.target.value) {
-                  if (
-                    e.target.value.length !== 3 ||
-                    containsLetters(e.target.value)
-                  ) {
-                    toast.error("El código de seguridad no es válido");
-                    return (e.target.value = "");
-                  }
-                }
-              }}
-            />
-          </div>
-
-          <label htmlFor="name-card" className="form-label mt-3">
-            Nombre y Apellido (Como figura en la Tarjeta):
-          </label>
-          <input
-            id="name-card"
-            type="text"
-            className="form-control"
-            placeholder="Ej: JULIAN G. RAMIREZ"
-            required
-            onChange={(e) => setCardName(e.target.value)}
-            onBlur={(e) => {
-              if (e.target.value) {
-                if (containsNumbers(e.target.value)) {
-                  toast.error("El nombre no puede contener números");
-                  return (e.target.value = "");
-                }
-              }
-            }}
-          />
-
-          <label htmlFor="number" className="form-label mt-3">
-            Numero Telefonico:
-          </label>
-          <input
-            id="number"
-            type="number"
-            className="form-control "
-            placeholder="Ej: 11 9999 9999"
-            required
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            onBlur={(e) => {
-              if (e.target.value) {
-                if (
-                  e.target.value.length !== 10 ||
-                  containsLetters(e.target.value)
-                ) {
-                  toast.error("El número de celular no es válida");
-                  return (e.target.value = "");
-                }
-              }
-            }}
-          />
-          <small>No incluyas el prefijo.</small>
-          <hr />
-          <div
-            style={{ display: "flex", justifyContent: "center" }}
-            className="mt-3"
-          >
-            <button type="submit" className="btn btn-dark mb-5">
-              Finalizar mi compra
-            </button>
-          </div>
-        </form>
-      </div>
-    </div> */}
-
-      <section class="bg-white">
-        <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
-          <section class="relative flex h-32 items-center justify-center bg-gray-900  lg:h-full xl:col-span-6">
+      <section class="bg-white lg:h-screen">
+        <div class="lg:flex lg:h-full lg:w-full lg:justify-around" >
+          <section class="relative lg:flex flex-grow items-center justify-center bg-gray-900  xl:col-span-6 hidden">
             <img
               alt="Night"
               src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/71559988612153.5ddbe6a085156.jpg"
@@ -357,10 +109,10 @@ const Checkout = () => {
             </div>
           </section>
 
-          <main class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-            <div class="max-w-xl lg:max-w-3xl">
-              <div class="relative -mt-16 block ">
-                <h1 class="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+          <main class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7  xl:col-span-6 flex-grow" style={{border:"1px solid yellow"}}>
+            <div class="max-w-xl ">
+              <div class="relative lg:-mt-16 block ">
+                <h1 class="mt-2 text-xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
                   Formulario de Pago
                 </h1>
                 <p className="text-zinc-600">
@@ -491,7 +243,7 @@ const Checkout = () => {
                     <option value="JM" selected>
                       Visa
                     </option>
-                    <option value="SRV">Maestro</option>
+                    <option value="SRV">Plus</option>
                   </select>
                 </div>
 
@@ -568,7 +320,7 @@ const Checkout = () => {
                 </div>
 
                 <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button type="submit" class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                  <button type="submit" class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 w-full lg:auto">
                     Finalizar Compra
                   </button>
                 </div>

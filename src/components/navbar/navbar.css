@@ -1,0 +1,13 @@
+@media(max-width:768px){
+  .searchSection{
+    display: none;
+  }
+  .openMenu{
+    display: block;
+  }
+
+  .menu{
+    width: auto;
+  }
+}
+

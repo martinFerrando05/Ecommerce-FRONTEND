@@ -3,29 +3,30 @@ import { Route, Routes, useLocation } from "react-router";
 import Grid from "./commons/Grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Register from "./components/Register";
-import Navbar from "./components/Navbar";
-import LoginForm from "./components/LoginForm";
+import Register from "./components/register/Register";
+import Navbar from "./components/navbar/Navbar";
+import LoginForm from "./components/login/LoginForm";
 import { loginUser } from "./redux/user";
 import { useDispatch } from "react-redux";
-import Content from "./components/Content";
+import Content from "./components/productDetails/Content";
 import Cart from "./components/Cart";
 import SearchResults from "./components/SearchResults";
 import History from "./components/History";
-import Checkout from "./components/Checkout";
+import Checkout from "./components/checkout/Checkout";
 import ProductForm from "./components/ProductForm";
-import EditCategories from "./components/EditCategories";
+import EditCategories from "./components/category/EditCategories";
 import Categories from "./components/Categories";
 import Profile from "./components/Profile";
-import Carousel from "./components/Carousel";
+import Carousel from "./components/carousel/Carousel";
 import ProtectedUrl from "./commons/ProtectedUrl";
+
 
 function App() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const dispatch = useDispatch();
   const location = useLocation();
-
+  
   useEffect(() => {
     axios
       .get("/api/users/me", { withCredentials: true })
@@ -48,7 +49,7 @@ function App() {
   const isSearchResultsPage = location.pathname === "/search-results";
 
   return (
-    <div >
+    <div>
       <Navbar categories={categories} />
       <div className=" ">
         <Routes>
@@ -70,7 +71,7 @@ function App() {
           />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/cart" element={<Cart />} />
+          {/* <Route path="/cart" element={<Cart />} /> */}
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/products/:id" element={<Content />} />
           <Route
