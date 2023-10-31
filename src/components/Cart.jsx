@@ -15,8 +15,6 @@ const Cart = () => {
   const openCart = useSelector((store) => store.openCart.value.isOpen);
   const dispatch = useDispatch();
 
-  console.log(cartItems);
-
   const axiosData = async () => {
     try {
       const response = await axios.get("/api/cart");
@@ -41,10 +39,10 @@ const Cart = () => {
     axiosData();
   };
 
-  const handleAddToCart = async (id) => {
+  /*   const handleAddToCart = async (id) => {
     await axios.post(`/api/cart/${id}`);
     axiosData();
-  };
+  }; */
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -56,85 +54,6 @@ const Cart = () => {
 
   return (
     <>
-      {/* <div
-        className="w-full h-full flex mx-auto flex-col items-center container justify-center pt-28 pb-28"
-        style={{border:"1px solid red"}}
-      >
-        <Toaster richColors position="top-center" />
-        <h1 className="text-3xl lg:text-5xl text-white font-bold right-0 mb-10">
-          Mi carrito de Compras
-        </h1>
-        <div className="w-full  sm:w-4/6">
-          <p className="mb-3 text-white">PRODUCTOS</p>
-          <hr />
-        </div>
-        <br className=" bg-white" />
-
-        {cartItems?.map((item, i) => {
-          return (
-            <div
-              className="bg-white  sm:w-4/6 mb-1 mt-2 rounded-lg flex sm:flex-wrap"
-              key={i}
-            >
-              <img src={item.urlImg[0]} alt="" className="w-[100px] h-[40%] lg:w-[180px] lg:h-[100%]" />
-              <div className="flex flex-col">
-                <h4 className="text-black text-lg lg:text-xl pt-1 font-bold">
-                  {item.name}
-                </h4>
-                <p className="text-black hidden sm:block">{item.description}</p>
-                <div className="flex flex-row items-start mt-2 sm:mt-20" style={{border:"1px solid red"}}>
-                  <button
-                    className="bg-gray-200 text-lg px-4 py-1 sm:py-2 sm:px-5 rounded-lg text-blue-500 sm:text-3xl"
-                    onClick={() => {
-                      handleDeleteFromCart(item.id);
-                    }}
-                  >
-                    -
-                  </button>
-                  <span className="py-4 px-6 text-xl text-black rounded-lg">
-                    {item.cart_products.quantity}
-                  </span>
-                  <button
-                    className="bg-gray-200 text-lg px-4 py-1 sm:py-2 sm:px-5 rounded-lg text-blue-500 sm:text-3xl"
-                    onClick={() => {
-                      if (item.cart_products.quantity < item.stock) {
-                        handleAddToCart(item.id);
-                      }
-                    }}
-                    disabled={item.cart_products.quantity >= item.stock}
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-
-        <div className="w-4/6 h-[180px] mt-7 bg-gray-400 flex flex-col items-center pl-40 pr-40 justify-center">
-          <div className="w-full flex flex-col">
-            <div className="flex justify-between w-full text-zinc-700">
-              <h3>Costo de envio</h3>
-              <p>$500</p>
-            </div>
-            <div className="flex justify-between w-full text-zinc-700">
-              <h3>Impuestos</h3>
-              <p>$225</p>
-            </div>
-            <div className="flex justify-between w-full text-black text-xl">
-              <h3>Total</h3>
-              <p>${parseInt(totalPrice) + 500 + 225}</p>
-            </div>
-          </div>
-          <hr className="w-full mb-3 mt-3" />
-          <button
-            onClick={()=> navigate("/checkout")}
-            class="flex items-center justify-center w-full px-6 py-3 text-lg tracking-wide text-white capitalize transition-colors duration-300 transform bg-black hover:bg-zinc-900 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
-          >
-            <span>Realizar Compra </span>
-          </button>
-        </div>
-      </div> */}
       <div
         class="relative z-10"
         aria-labelledby="slide-over-title"
@@ -147,9 +66,7 @@ const Cart = () => {
           <div class="absolute inset-0 overflow-hidden">
             <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full sm:pl-10">
               <div class="pointer-events-auto w-screen max-w-md">
-                <div
-                  class="flex h-full w-full flex-col overflow-y-scroll bg-white shadow-xl"
-                >
+                <div class="flex h-full w-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 bg-gray-800 text-white">
                     <div class="flex items-start justify-between">
                       <h2 class="text-lg font-medium " id="slide-over-title">
@@ -223,9 +140,9 @@ const Cart = () => {
                                       <button
                                         type="button"
                                         class="font-medium text-indigo-600 hover:text-indigo-500"
-                                        onClick={() => {
-                                          handleDeleteFromCart(item.id);
-                                        }}
+                                        onClick={() =>
+                                          handleDeleteFromCart(item.id)
+                                        }
                                       >
                                         Eliminar
                                       </button>

@@ -161,7 +161,7 @@ const Navbar = ({ categories }) => {
                                   );
                                 })
                               : ""}
-                            {usuario.isAdmin ? (
+                            {usuario && usuario.isAdmin ? (
                               <>
                                 <hr />
                                 <Link to={`/edit-categories`}>
@@ -235,7 +235,7 @@ const Navbar = ({ categories }) => {
               {/* Carrito y Nombre */}
               <div class="relative">
                 <ul className="flex items-center">
-                  {usuario.name && (
+                  {usuario && usuario.name && (
                     <li style={{ color: "#fff" }}>
                       <TiShoppingCart
                         className="sm:w-20 sm:h-10 w-10 h-8 cursor-pointer"
@@ -262,7 +262,7 @@ const Navbar = ({ categories }) => {
                       className="relative inline-block text-left z-10"
                     >
                       <div>
-                        {usuario.name ? (
+                        {usuario && usuario.name ? (
                           <Menu.Button className="text-white text-lg pl-1 h-16 mr-3 cursor-pointer">
                             <MdPersonOutline className="sm:w-10 sm:h-10 w-8 h-8 cursor-pointer" />
                           </Menu.Button>
@@ -320,7 +320,7 @@ const Navbar = ({ categories }) => {
                                 )}
                               </Menu.Item>
                             </Link>
-                            {usuario.isAdmin ? (
+                            {usuario && usuario.isAdmin ? (
                               <Link to={"/create-product"}>
                                 <Menu.Item>
                                   {({ active }) => (
